@@ -12,7 +12,7 @@ import javax.sound.midi.Sequencer;
 /**
  * MIDI
  * <pre>
- * MIDI���t�𐧌䂵�܂��B
+ * MIDI演奏を制御します
  * </pre>
  */
 public class KSoundMidi {
@@ -20,23 +20,32 @@ public class KSoundMidi {
 	private Sequencer sequencer;
 
 	/**
-	 * �R���X�g���N�^
-	 * <pre>
-	 * Midi�I�u�W�F�N�g�𐶐����܂��B
-	 * </pre>
-	 * @param obj �p�X�����߂�I�u�W�F�N�g
-	 * @param fileName �t�@�C����
-	 * @param flgLoop true�F�J��Ԃ� �^ false�F�J��Ԃ��Ȃ�
+	 * コンストラクタ
+
+	 * Midiオブジェクトを生成する
+
+	 * @param obj パスを決めるオブジェクト
+	 * @param fileName ファイル名
+	 * @param flgLoop true:繰り返す false:繰り返さない
 	 */
+
+
 	public KSoundMidi(Object obj, String fileName, boolean flgLoop) {
 
 		try {
+
 			if (obj == null) {
 				obj = this;
 			}
+			//filenameにはmid拡張子又はwav拡張子のファイル名が入る
+			//ここでファイルを取得する
 			InputStream is = obj.getClass().getResourceAsStream(fileName);
+			//取得したファイルからmidi情報を取り出し、Sequence型の変数に格納する
 			Sequence s = MidiSystem.getSequence(is);
+			//MidiSystemクラスのgetSequencer()メソッドで音を鳴らすシーケンサーを取得して
+			//このKSoundMidiクラスの属性に格納する
 			this.sequencer = MidiSystem.getSequencer();
+			//boolean型の引数flgLoopを決めることで、ゲーム中はmidi音源を繰り返し続ける
 			if (flgLoop) {
 				this.sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
 			}

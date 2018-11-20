@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  * Wave
  * <pre>
- * Wave���t�𐧌䂵�܂��B
+ * Wave演奏を制御する
  * </pre>
  */
 public class KSoundWave {
@@ -22,25 +22,35 @@ public class KSoundWave {
 	private Clip clip;
 
 	/**
-	 * �R���X�g���N�^
+	 * コンストラクタ
 	 * <pre>
-	 * Wave�I�u�W�F�N�g�𐶐����܂��B
+	 * Waveオブジェクトを生成する
 	 * </pre>
-	 * @param obj �p�X�����߂�I�u�W�F�N�g
-	 * @param fileName �t�@�C����
-	 * @param flgLoop true�F�J��Ԃ� �^ false�F�J��Ԃ��Ȃ�
-	 */
+	 * @param obj パスを決めるオブジェクト
+	 * @param fileName ファイル名
+	 * @param flgLoop true:繰り返す false:繰り返さない**/
+
+
 	public KSoundWave(Object obj, String fileName, boolean flgLoop) {
 
 		try {
 			if (obj == null) {
 				obj = this;
 			}
+			//プロジェクトからファイルを引っ張ってくる
 			InputStream is = obj.getClass().getResourceAsStream(fileName);
+			//AudioSystemクラスのgetAudioInputStream(1)の引数に指定された入力ストリームから
+			//オーディオ入力ストリームを取得します
+			//getAudioInputStream()メソッドで取得したオーディオ入力ストリームを
+			//AudioInputStreamクラス型の変数soundに格納し、使えるようにする
 			AudioInputStream sound = AudioSystem.getAudioInputStream(is);
+			//getFormat()メソッドで取得したサウンドデータをAudioFormat型のクラス変数formatへ格納する
 			AudioFormat format = sound.getFormat();
+			//短い音声出力Clipを使用するときの決まり文句である。覚える事。
 			DataLine.Info di = new DataLine.Info(Clip.class, format);
+//			DataLine型をClip型にキャストして型変更し使用している
 			this.clip = (Clip) AudioSystem.getLine(di);
+//			Clipを使用して音声データを流す
 			clip.open(sound);
 
 		} catch (UnsupportedAudioFileException ex) {
@@ -56,17 +66,14 @@ public class KSoundWave {
 
 	} // end KSoundWave
 
-	/**
-	 * ���t�X�^�[�g
-	 */
+	//演奏スタート
 	public void start() {
 		clip.setFramePosition(0);
 		clip.start();
 	}
 
-	/**
-	 * ���t�X�g�b�v
-	 */
+
+	 //演奏ストップ
 	public void stop() {
 		clip.stop();
 	}
