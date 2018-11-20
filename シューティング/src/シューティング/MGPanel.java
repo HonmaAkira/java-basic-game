@@ -19,11 +19,12 @@ import javax.swing.JPanel;
 //このクラスの中にパネル出力メソッド・描画メソッドの2つのメソッドを持つ
 //javax.swingクラスのJPanelクラスを継承して自分用の画面表示を作る
 public class MGPanel extends JPanel {
+	//フェーズ
+		private int phase =0;
+
 	//マウスアダプタ
 	private MGMouseAdapter mgma = null;
 
-	//フェーズ
-	private int phase =0;
 
 	//背景
 	private BufferedImage imageBackground = null;
@@ -68,9 +69,9 @@ public class MGPanel extends JPanel {
 	private KSoundMidi midiMoguraDance = null;
 
 	//効果音
-	private KSoundWave waveMoguraDeru = null;
-	private KSoundWave wavePicoHammerMiss = null;
-	private KSoundWave wavePicoHammerHit = null;
+//	private KSoundWave waveMoguraDeru = null;
+//	private KSoundWave wavePicoHammerMiss = null;
+//	private KSoundWave wavePicoHammerHit = null;
 	//コンストラクタ
 	public MGPanel() {
 	//スーパークラスを呼び出す
@@ -103,9 +104,14 @@ public class MGPanel extends JPanel {
 			InputStream isM00 = this.getClass().getResourceAsStream("M00.gif");
 			//BufferedImageの用意した配列の一つに取得した画像ファイルを格納する
 			imageMs[0] = ImageIO.read(isM00);
+			//close()は大事！！処理落ちやエラーの原因となる
+			isM00.close();
+
 
 			InputStream isM01 = this.getClass().getResourceAsStream("M01.gif");
 			imageMs[1] = ImageIO.read(isM01);
+			//close()は大事！！処理落ちやエラーの原因となる
+			isM01.close();
 
 			//タイマーを生成
 			timerThis = new java.util.Timer();
@@ -117,6 +123,13 @@ public class MGPanel extends JPanel {
 			imageBackground = ImageIO.read(isBackgrond);
 			isBackgrond.close();
 
+		//BGMを生成
+			midiMoguraDance =new KSoundMidi(this,"MoguraDance.mid",false);
+
+		//効果音を生成
+//			waveMoguraDeru = new KSoundWave(this,"sound\\MoguraDeru.wav",false);
+//			wavePicoHammerMiss = new KSoundWave(this,"sound\\PicoHammerMiss.wav",false);
+//			wavePicoHammerHit = new KSoundWave(this,"sound\\PicoHammerHit.wav",false);
 		//初期化
 			init();
 
@@ -136,7 +149,14 @@ public class MGPanel extends JPanel {
 		score = 0;
 		//時間
 		time = 1859;
-	}
+		//BGMを初期化
+		//KSoundMidiクラスの中のinit()を使う
+		midiMoguraDance.init();
+
+		//BGMをスタート
+		//KSoundMidiクラスの中のstart()を使う
+		midiMoguraDance.start();
+	}//end init
 
 
 	//実行
@@ -167,6 +187,9 @@ public class MGPanel extends JPanel {
 
 					mx = (int)(Math.random() *550);
 					my = (int)(Math.random() *450);
+
+					//効果音をスタート
+//					waveMoguraDeru.start();
 				}//end if 時間が0になったら
 			}// end if やられている場合
 
@@ -219,7 +242,7 @@ public class MGPanel extends JPanel {
 			g.setFont(fontGameover);
 			//Graphicsクラスで文字などをsystem.out.printlnのように出力したいときは
 			//drawStringメソッドを使って、文字列、文字の大きさを指定する
-			g.drawString("終了", 240, 300);
+			g.drawString("ゲーム終了", 240, 300);
 
 			//コメント
 			if(score>=30) {
@@ -265,6 +288,12 @@ public class MGPanel extends JPanel {
 						m=1;
 						timeM = 30;
 						score++;
+						//効果音をスタート
+//						wavePicoHammerHit.start();
+
+						//外れた場合
+					}else {
+//						wavePicoHammerMiss.start();
 					}
 
 				}//end やられていない場合
@@ -286,20 +315,6 @@ public class MGPanel extends JPanel {
 
 
 		} //end mouseReleased
-
-
-		//マウスがクリックされたときに呼ばれるメソッド
-		public void mouseClicked(MouseEvent me) {
-
-		//マウスイベントの内容を出力
-
-		//場所を記憶する
-			px = me.getX()-100;
-			py = me.getY()-100;
-		//描画する
-			repaint();
-
-		} //end mouseClicked
 
 
 		public void mouseMoved(MouseEvent me) {

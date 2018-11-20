@@ -11,9 +11,9 @@ import javax.sound.midi.Sequencer;
 
 /**
  * MIDI
- * <pre>
+
  * MIDI演奏を制御します
- * </pre>
+
  */
 public class KSoundMidi {
 
