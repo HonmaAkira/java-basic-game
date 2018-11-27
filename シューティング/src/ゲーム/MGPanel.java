@@ -1,4 +1,4 @@
-package シューティング;
+package ゲーム;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package シューティング;
+package ゲーム;
 
 import java.io.IOException;
 import java.io.InputStream;
