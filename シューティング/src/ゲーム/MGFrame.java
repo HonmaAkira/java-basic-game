@@ -29,5 +29,5 @@ public class MGFrame extends JFrame {
 		//サイズを最適化する
 		super.pack();
 
-	}//end MGFrame
+	}//end MGhFrame
 }

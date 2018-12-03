@@ -66,30 +66,30 @@ public class KSoundMidi {
 	} // end KSoundMidi
 
 	/**
-	 * ���t�X�^�[�g
+	 * 音源スタート
 	 */
 	public void start() {
 		sequencer.start();
 	}
 
 	/**
-	 * ���t�X�g�b�v
+	 * 音源ストップ
 	 */
 	public void stop() {
 		sequencer.stop();
 	}
 
 	/**
-	 * ���t�ʒu������
+	 * 音源位置初期化
 	 */
 	public void init() {
 		sequencer.setTickPosition(0l);
 	}
 
 	/**
-	 * ���t�����ǂ�����Ԃ��܂�
+	 * 演奏中かどうかを返します
 	 * <pre>
-	 * start() ���� stop() ���Ăяo�����܂ł̊ԁAtrue ��Ԃ��܂��B
+	 * start()からstop()が呼び出されるまでtrueを返します
 	 * </pre>
 	 */
 	public boolean isRunning() {
